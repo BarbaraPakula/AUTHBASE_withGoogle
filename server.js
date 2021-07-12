@@ -9,7 +9,10 @@ const passportSetup = require('./config/passport');
 const app = express();
 
 // set handlebars as view engine
-app.engine('hbs', hbs({ extname: 'hbs', layoutsDir: './layouts', defaultLayout: 'main' }));
+app.engine(
+  'hbs',
+  hbs({ extname: 'hbs', layoutsDir: './layouts', defaultLayout: 'main' })
+);
 app.set('view engine', '.hbs');
 
 // init session mechanism
@@ -26,7 +29,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.get('/', (req, res) => {
+  req.logout();
   res.render('index');
+});
+app.get('/auth.logout', (req, res) => {
+  res.render('logout');
 });
 
 app.use('/auth', require('./routes/auth.routes'));
